@@ -62,9 +62,7 @@ function UsernameForm() {
     const onSubmit = async e => {
         e.preventDefault()
 
-        console.log('submited')
-
-        const userDoc = firestore.doc(`user/${user.uid}`)
+        const userDoc = firestore.doc(`users/${user.uid}`)
         const usernameDoc = firestore.doc(`usernames/${formValue}`)
 
         try {
