@@ -1,13 +1,13 @@
 // import styles from '../styles/Home.module.css'
 import Loader from '../components/Loader'
-import { firestore, fromMillis } from '../lib/firebase'
+import Metatags from '../components/Metatags'
+import { firestore, fromMillis, postToJSON } from '../lib/firebase'
 import { useState } from 'react'
 import PostFeed from '../components/PostFeed'
 
 const LIMIT = 1;
 
 export async function getServerSideProps(context) {
-  let postsDocs = null;
   let posts = []
 
   const postsQuery = firestore
@@ -16,18 +16,7 @@ export async function getServerSideProps(context) {
     .orderBy('createdAt', 'desc')
     .limit(LIMIT)
 
-  postsDocs = (await postsQuery.get()).docs
-
-  postsDocs.forEach(doc => {
-    let data = doc.data()
-
-    posts.push({
-      ...data,
-      // Gotcha! firestore timestamp NOT serializable to JSON. Must convert to milliseconds
-      createdAt: data?.createdAt.toMillis() || 0,
-      updatedAt: data?.updatedAt.toMillis() || 0,
-    })
-  })
+  posts = (await postsQuery.get()).docs.map(postToJSON)
 
   return {
     props: { posts }
@@ -61,6 +50,7 @@ export default function Home(props) {
 
   return (
     <main>
+      <Metatags title="Nextfire App" />
       <PostFeed posts={posts} />
       {!loading && !postsEnd && <button onClick={getMorePosts}>Load more</button>}
 

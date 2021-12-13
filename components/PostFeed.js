@@ -16,7 +16,7 @@ function PostItem({ post, admin = false }) {
                 </a>
             </Link>
 
-            <Link href={`/${post.username}/${post?.slug}`} passHref>
+            <Link href={`/${post.username}/${post.slug}`} passHref>
                 <h2>
                     <a>{post.title}</a>
                 </h2>
@@ -26,10 +26,21 @@ function PostItem({ post, admin = false }) {
                 <span>
                     {wordCount} words. {minutesToRead} min read
                 </span>
-                <span className="push-left">💗 {post?.heartCount || 0} Hearts</span>
+                <span className="push-left">💗 {post.heartCount || 0} Hearts</span>
             </footer>
 
+            {/* If admin view, show extra controls for user */}
+            {admin && (
+                <>
+                    <Link href={`/admin/${post.slug}`} passHref>
+                        <h3>
+                            <button className="btn-blue">Edit</button>
+                        </h3>
+                    </Link>
 
+                    {post.published ? <p className="text-success">Live</p> : <p className="text-danger">Unpublished</p>}
+                </>
+            )}
         </div>
     )
 }
