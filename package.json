@@ -17,7 +17,7 @@
     "react-firebase-hooks": "^4.0.0",
     "react-hook-form": "^7.20.5",
     "react-hot-toast": "^2.1.1",
-    "react-markdown": "^7.1.0"
+    "react-markdown": "^7.1.1"
   },
   "devDependencies": {
     "@types/react": "^17.0.33",
